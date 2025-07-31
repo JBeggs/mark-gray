@@ -64,26 +64,8 @@ async function getArticleData(slug: string) {
       metadata,
       created_at,
       updated_at,
-      author:profiles!author_id(
-        id,
-        full_name,
-        bio,
-        avatar_url,
-        role
-      ),
-      category:categories(
-        id,
-        name,
-        slug,
-        color
-      ),
-      tags:article_tags(
-        tag:tags(
-          id,
-          name,
-          slug
-        )
-      )
+      author_id,
+      category_id
     `)
     .eq('slug', slug)
     .eq('status', 'published')
