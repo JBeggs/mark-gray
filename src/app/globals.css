@@ -1,0 +1,261 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables for theming */
+:root {
+  --color-primary: #1e40af;
+  --color-primary-dark: #1e3a8a;
+  --color-accent: #dc2626;
+  --color-accent-dark: #b91c1c;
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-feature-settings: "rlig" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography - News24/BBC inspired */
+.heading-xl {
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold font-playfair text-neutral-900 leading-tight;
+}
+
+.heading-lg {
+  @apply text-3xl md:text-4xl font-bold font-playfair text-neutral-900 leading-tight;
+}
+
+.heading-md {
+  @apply text-2xl md:text-3xl font-bold font-playfair text-neutral-900 leading-tight;
+}
+
+.heading-sm {
+  @apply text-xl md:text-2xl font-semibold text-neutral-900 leading-snug;
+}
+
+.heading-xs {
+  @apply text-lg md:text-xl font-semibold text-neutral-900 leading-snug;
+}
+
+.body-lg {
+  @apply text-lg leading-relaxed text-neutral-700;
+}
+
+.body-md {
+  @apply text-base leading-relaxed text-neutral-700;
+}
+
+.body-sm {
+  @apply text-sm leading-relaxed text-neutral-600;
+}
+
+/* Layout utilities */
+.container-wide {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.container-narrow {
+  @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Card components */
+.card {
+  @apply bg-white border border-neutral-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200;
+}
+
+.card-elevated {
+  @apply bg-white border border-neutral-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200;
+}
+
+/* Button styles */
+.btn {
+  @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+}
+
+.btn-secondary {
+  @apply bg-neutral-100 text-neutral-900 hover:bg-neutral-200 focus:ring-neutral-500;
+}
+
+.btn-accent {
+  @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+}
+
+/* Article styling */
+.article-content {
+  @apply prose prose-lg max-w-none;
+}
+
+.article-content h1 {
+  @apply heading-lg mb-4;
+}
+
+.article-content h2 {
+  @apply heading-md mb-3 mt-8;
+}
+
+.article-content h3 {
+  @apply heading-sm mb-2 mt-6;
+}
+
+.article-content p {
+  @apply body-md mb-4;
+}
+
+.article-content a {
+  @apply text-blue-600 hover:text-blue-800 underline;
+}
+
+/* Breaking news banner */
+.breaking-news {
+  @apply bg-red-600 text-white py-2 px-4;
+}
+
+.breaking-news-text {
+  @apply font-semibold uppercase tracking-wide text-sm;
+}
+
+/* Navigation */
+.nav-link {
+  @apply text-neutral-700 hover:text-blue-600 font-medium transition-colors duration-200;
+}
+
+.nav-link-active {
+  @apply text-blue-600 font-semibold;
+}
+
+/* Grid layouts for news */
+.news-grid {
+  @apply grid gap-6;
+}
+
+.news-grid-main {
+  @apply grid-cols-1 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.news-grid-secondary {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+/* Image styling */
+.news-image {
+  @apply w-full h-48 object-cover rounded-lg;
+}
+
+.news-image-lg {
+  @apply w-full h-64 md:h-80 object-cover rounded-lg;
+}
+
+.news-image-featured {
+  @apply w-full h-96 md:h-[500px] object-cover rounded-lg;
+}
+
+/* Tag/category styling */
+.tag {
+  @apply inline-block px-2 py-1 text-xs font-medium rounded-full;
+}
+
+.tag-primary {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.tag-accent {
+  @apply bg-red-100 text-red-800;
+}
+
+.tag-neutral {
+  @apply bg-neutral-100 text-neutral-800;
+}
+
+/* Divider lines - News24/BBC style */
+.divider {
+  @apply border-t border-neutral-200;
+}
+
+.divider-thick {
+  @apply border-t-2 border-neutral-300;
+}
+
+.divider-accent {
+  @apply border-t-2 border-red-600;
+}
+
+/* Section headers */
+.section-header {
+  @apply flex items-center justify-between mb-6 pb-3 border-b-2 border-red-600;
+}
+
+.section-title {
+  @apply heading-md text-neutral-900;
+}
+
+/* Responsive text sizes */
+@media (max-width: 640px) {
+  .heading-xl {
+    @apply text-3xl;
+  }
+  
+  .heading-lg {
+    @apply text-2xl;
+  }
+  
+  .heading-md {
+    @apply text-xl;
+  }
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-blue-600;
+}
+
+/* Loading states */
+.skeleton {
+  @apply bg-neutral-200 animate-pulse rounded;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card {
+    @apply border-2 border-neutral-900;
+  }
+  
+  .btn {
+    @apply border-2 border-current;
+  }
+}
