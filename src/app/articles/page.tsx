@@ -158,9 +158,9 @@ export default async function ArticlesPage() {
                     <div className="absolute top-4 left-4">
                       <span
                         className="px-3 py-1 text-sm font-semibold text-white rounded-full"
-                        style={{ backgroundColor: featuredArticle.category.color }}
+                        style={{ backgroundColor: (featuredArticle.category as any)?.color || '#3B82F6' }}
                       >
-                        {featuredArticle.category.name}
+                        {(featuredArticle.category as any)?.name}
                       </span>
                     </div>
                   )}
@@ -184,10 +184,10 @@ export default async function ArticlesPage() {
                   <div className="flex items-center space-x-6 text-sm text-gray-500 mb-6">
                     {/* Author */}
                     <div className="flex items-center space-x-2">
-                      {featuredArticle.author?.avatar_url ? (
+                      {(featuredArticle.author as any)?.avatar_url ? (
                         <Image
-                          src={featuredArticle.author.avatar_url}
-                          alt={featuredArticle.author.full_name}
+                          src={(featuredArticle.author as any).avatar_url}
+                          alt={(featuredArticle.author as any).full_name}
                           width={24}
                           height={24}
                           className="rounded-full"
@@ -195,7 +195,7 @@ export default async function ArticlesPage() {
                       ) : (
                         <User className="w-4 h-4" />
                       )}
-                      <span>{featuredArticle.author?.full_name || 'Staff Writer'}</span>
+                      <span>{(featuredArticle.author as any)?.full_name || 'Staff Writer'}</span>
                     </div>
 
                     {/* Date */}
@@ -258,9 +258,9 @@ export default async function ArticlesPage() {
                           <div className="absolute top-4 left-4">
                             <span
                               className="px-2 py-1 text-xs font-semibold text-white rounded-full"
-                              style={{ backgroundColor: article.category.color }}
+                              style={{ backgroundColor: (article.category as any)?.color || '#3B82F6' }}
                             >
-                              {article.category.name}
+                              {(article.category as any)?.name}
                             </span>
                           </div>
                         )}
@@ -284,7 +284,7 @@ export default async function ArticlesPage() {
                         <div className="flex items-center justify-between text-sm text-gray-500">
                           <div className="flex items-center space-x-4">
                             {/* Author */}
-                            <span>{article.author?.full_name || 'Staff Writer'}</span>
+                            <span>{(article.author as any)?.full_name || 'Staff Writer'}</span>
                             
                             {/* Date */}
                             <div className="flex items-center space-x-1">

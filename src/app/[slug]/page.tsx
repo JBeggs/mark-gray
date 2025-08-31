@@ -3,9 +3,9 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 // Helper function to safely parse JSON content
@@ -53,7 +53,8 @@ async function getPageDataBuildTime(slug: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const page = await getPageDataBuildTime((await params).slug) // Use build-time version
+  const { slug } = await params
+  const page = await getPageDataBuildTime(slug) // Use build-time version
   
   if (!page) {
     return {
@@ -69,7 +70,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function DynamicPage({ params }: PageProps) {
-  const page = await getPageData((await params).slug)
+  const { slug } = await params
+  const page = await getPageData(slug)
   
   if (!page) {
     notFound()

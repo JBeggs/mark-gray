@@ -56,8 +56,22 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.4",
     "postcss": "^8.5.6",
+    "puppeteer": "^24.15.0",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.20.3",
     "typescript": "^5"
-  }
+  },
+  "main": "html-to-pdf.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JBeggs/mark-grey.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JBeggs/mark-grey/issues"
+  },
+  "homepage": "https://github.com/JBeggs/mark-grey#readme",
+  "description": ""
 }

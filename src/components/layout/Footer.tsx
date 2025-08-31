@@ -47,7 +47,7 @@ async function getFooterData() {
     ?.sort((a, b) => a.sort_order - b.sort_order)
     ?.map(item => ({
       title: item.title,
-      href: item.url || (item.pages ? `/pages/${item.pages.slug}` : '#')
+      href: item.url || (item.pages ? `/pages/${Array.isArray(item.pages) ? (item.pages as any)[0]?.slug : (item.pages as any)?.slug}` : '#')
     })) || []
 
   // Get locations for contact info
@@ -87,7 +87,7 @@ export async function Footer() {
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
                 <span className="text-white font-bold">
-                  {siteName.split(' ').map(word => word[0]).join('').slice(0, 2)}
+                  {siteName.split(' ').map((word: string) => word[0]).join('').slice(0, 2)}
                 </span>
               </div>
               <span className="font-bold text-lg">{siteName}</span>

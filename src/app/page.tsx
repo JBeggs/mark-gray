@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase-server'
+import { createClient, createSupabaseBuildClient } from '@/lib/supabase-server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Clock, MapPin, TrendingUp } from 'lucide-react'
@@ -48,7 +48,7 @@ interface SiteSettings {
 
 async function getHomepageData() {
   try {
-    const supabase = await createClient()
+    const supabase = createSupabaseBuildClient()
 
     // Get site settings
     const { data: settingsData } = await supabase
@@ -73,7 +73,7 @@ async function getHomepageData() {
     const { data: articles } = await supabase
       .from('articles')
       .select(`
-        id, title, slug, excerpt, published_at, 
+        id, title, slug, excerpt, published_at, featured_image_url,
         is_breaking_news, is_trending, views, read_time_minutes,
         author:profiles!articles_author_id_fkey(full_name),
         category:categories!articles_category_id_fkey(name, slug)
@@ -85,7 +85,7 @@ async function getHomepageData() {
     // Get businesses
     const { data: businesses } = await supabase
       .from('businesses')
-      .select('id, name, slug, description, industry, city, rating')
+      .select('id, name, slug, description, industry, city, rating, logo_url')
       .limit(6)
 
     // Separate articles by type
@@ -126,9 +126,25 @@ function formatDate(dateString: string) {
 }
 
 function getImageUrl(article?: any) {
+  // Use actual featured image if available, otherwise fallback to placeholder
+  if (article?.featured_image_url) {
+    return article.featured_image_url
+  }
+  
   // Generate a consistent random seed based on article ID for consistent images
   const seed = article?.id ? parseInt(article.id.slice(-6), 16) : Math.floor(Math.random() * 1000)
   return `https://picsum.photos/800/600?random=${seed}`
+}
+
+function getBusinessImageUrl(business?: any) {
+  // Use actual business logo if available
+  if (business?.logo_url) {
+    return business.logo_url
+  }
+  
+  // Generate a consistent random seed based on business ID for consistent images
+  const seed = business?.id ? parseInt(business.id.slice(-6), 16) : Math.floor(Math.random() * 1000)
+  return `https://picsum.photos/300/300?random=${seed}`
 }
 
 export default async function HomePage() {
@@ -177,7 +193,7 @@ export default async function HomePage() {
                     />
                     {featuredArticles[0]?.category && (
                       <span className="absolute top-4 left-4 tag tag-accent">
-                        {featuredArticles[0].category.name}
+                        {(featuredArticles[0].category as any)?.name}
                       </span>
                     )}
                   </div>
@@ -189,7 +205,7 @@ export default async function HomePage() {
                   <p className="body-lg mb-4">{featuredArticles[0]?.excerpt}</p>
                   <div className="flex items-center justify-between text-sm text-neutral-500">
                     <div className="flex items-center space-x-4">
-                      <span>By {featuredArticles[0]?.author?.full_name || 'Staff Writer'}</span>
+                      <span>By {(featuredArticles[0]?.author as any)?.full_name || 'Staff Writer'}</span>
                       <span className="flex items-center">
                         <Clock className="w-4 h-4 mr-1" />
                         {featuredArticles[0]?.read_time_minutes || 5} min read
@@ -217,7 +233,7 @@ export default async function HomePage() {
                       <div className="flex-1">
                         {article.category && (
                           <span className="tag tag-primary mb-2">
-                            {article.category.name}
+                            {(article.category as any)?.name}
                           </span>
                         )}
                         <h3 className="heading-xs mb-2">
@@ -226,7 +242,7 @@ export default async function HomePage() {
                           </Link>
                         </h3>
                         <div className="flex items-center text-xs text-neutral-500">
-                          <span>{article.author?.full_name || 'Staff Writer'}</span>
+                          <span>{(article.author as any)?.full_name || 'Staff Writer'}</span>
                           <span className="mx-2">•</span>
                           <time>{new Date(article.published_at).toLocaleDateString()}</time>
                         </div>
@@ -263,7 +279,7 @@ export default async function HomePage() {
                       />
                       {article.category && (
                         <span className="absolute top-3 left-3 tag tag-primary">
-                          {article.category.name}
+                          {(article.category as any)?.name}
                         </span>
                       )}
                     </div>
@@ -275,7 +291,7 @@ export default async function HomePage() {
                       </h3>
                       <p className="body-sm mb-3 text-neutral-600 line-clamp-2">{article.excerpt}</p>
                       <div className="flex items-center justify-between text-xs text-neutral-500">
-                        <span>{article.author?.full_name || 'Staff Writer'}</span>
+                        <span>{(article.author as any)?.full_name || 'Staff Writer'}</span>
                         <time>{new Date(article.published_at).toLocaleDateString()}</time>
                       </div>
                     </div>
@@ -325,7 +341,7 @@ export default async function HomePage() {
                         <div className="flex items-center space-x-3">
                           <div className="flex-shrink-0">
                             <Image
-                              src={getImageUrl(business)}
+                              src={getBusinessImageUrl(business)}
                               alt={`${business.name} logo`}
                               width={48}
                               height={48}

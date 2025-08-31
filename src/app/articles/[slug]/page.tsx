@@ -4,14 +4,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import { Calendar, Clock, User, Tag, Share2, Edit3 } from 'lucide-react'
-import ArticleEditor from '@/components/articles/ArticleEditor'
+import EnhancedArticleEditor from '@/components/articles/EnhancedArticleEditor'
 import ShareButtons from '@/components/articles/ShareButtons'
 import RelatedArticles from '@/components/articles/RelatedArticles'
 
 interface ArticlePageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 // Helper function to safely parse JSON content
@@ -58,14 +58,12 @@ async function getArticleData(slug: string) {
       shares,
       read_time_minutes,
       status,
-      seo_title,
-      seo_description,
-      location_name,
-      metadata,
       created_at,
       updated_at,
       author_id,
-      category_id
+      category_id,
+      author:profiles!author_id!inner(id, full_name, avatar_url, role),
+      category:categories!category_id!inner(id, name, slug, color)
     `)
     .eq('slug', slug)
     .eq('status', 'published')
@@ -99,8 +97,8 @@ async function getArticleDataBuildTime(slug: string) {
       seo_description,
       featured_image_url,
       published_at,
-      author:profiles!author_id(full_name),
-      category:categories(name)
+      author:profiles!author_id!inner(full_name),
+      category:categories!category_id!inner(name)
     `)
     .eq('slug', slug)
     .eq('status', 'published')
@@ -114,7 +112,8 @@ async function getArticleDataBuildTime(slug: string) {
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
-  const article = await getArticleDataBuildTime((await params).slug)
+  const { slug } = await params
+  const article = await getArticleDataBuildTime(slug)
   
   if (!article) {
     return {
@@ -130,7 +129,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       description: article.excerpt || '',
       type: 'article',
       publishedTime: article.published_at,
-      authors: [article.author?.full_name || 'The Riverside Herald'],
+      authors: [(article.author as any)?.full_name || 'The Riverside Herald'],
       images: article.featured_image_url ? [article.featured_image_url] : [],
     },
     twitter: {
@@ -143,7 +142,8 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const article = await getArticleData((await params).slug)
+  const { slug } = await params
+  const article = await getArticleData(slug)
   
   if (!article) {
     notFound()
@@ -178,11 +178,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 {/* Category Badge */}
                 {article.category && (
                   <Link
-                    href={`/category/${article.category.slug}`}
+                    href={`/category/${(article.category as any).slug}`}
                     className="inline-block px-3 py-1 text-sm font-semibold rounded-full text-white mb-6"
-                    style={{ backgroundColor: article.category.color }}
+                    style={{ backgroundColor: (article.category as any).color }}
                   >
-                    {article.category.name}
+                    {(article.category as any).name}
                   </Link>
                 )}
                 
@@ -202,10 +202,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-8">
                   {/* Author */}
                   <div className="flex items-center space-x-3">
-                    {article.author?.avatar_url ? (
+                    {(article.author as any)?.avatar_url ? (
                       <Image
-                        src={article.author.avatar_url}
-                        alt={article.author.full_name}
+                        src={(article.author as any).avatar_url}
+                        alt={(article.author as any).full_name}
                         width={40}
                         height={40}
                         className="rounded-full"
@@ -217,10 +217,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     )}
                     <div>
                       <p className="font-medium text-gray-900">
-                        {article.author?.full_name || 'The Riverside Herald'}
+                        {(article.author as any)?.full_name || 'The Riverside Herald'}
                       </p>
                       <p className="text-sm text-gray-500">
-                        {article.author?.role === 'editor' ? 'Editor' : 'Staff Writer'}
+                        {(article.author as any)?.role === 'editor' ? 'Editor' : 'Staff Writer'}
                       </p>
                     </div>
                   </div>
@@ -237,13 +237,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <span>{readingTime} min read</span>
                   </div>
                   
-                  {/* Location */}
-                  {article.location_name && (
-                    <div className="flex items-center space-x-2">
-                      <span className="text-blue-600">📍</span>
-                      <span>{article.location_name}</span>
-                    </div>
-                  )}
+                  {/* Location temporarily removed - will be restored with enhanced editor */}
                 </div>
                 
                 {/* Action Buttons */}
@@ -269,7 +263,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     </button>
                     
                     {/* Edit Button - Only visible to admins and authors */}
-                    <ArticleEditor article={article} />
+                    <EnhancedArticleEditor article={article} />
                   </div>
                 </div>
               </div>
@@ -295,54 +289,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               />
             </div>
             
-            {/* Tags */}
-            {article.tags && article.tags.length > 0 && (
-              <div className="mt-12 pt-8 border-t border-gray-200">
-                <div className="flex items-center space-x-4">
-                  <Tag className="w-5 h-5 text-gray-400" />
-                  <div className="flex flex-wrap gap-2">
-                    {article.tags.map(({ tag }) => (
-                      <Link
-                        key={tag.id}
-                        href={`/tag/${tag.slug}`}
-                        className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm rounded-full transition-colors"
-                      >
-                        {tag.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Tags section temporarily removed - will be restored with enhanced editor */}
             
-            {/* Author Bio */}
-            {article.author?.bio && (
-              <div className="mt-12 p-6 bg-gray-50 rounded-xl">
-                <div className="flex items-start space-x-4">
-                  {article.author.avatar_url ? (
-                    <Image
-                      src={article.author.avatar_url}
-                      alt={article.author.full_name}
-                      width={64}
-                      height={64}
-                      className="rounded-full"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
-                      <User className="w-8 h-8 text-gray-600" />
-                    </div>
-                  )}
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      About {article.author.full_name}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      {article.author.bio}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Author Bio section temporarily removed - will be restored with enhanced editor */}
           </div>
         </div>
       </article>
@@ -356,7 +305,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       {/* Related Articles */}
       <RelatedArticles 
         currentArticleId={article.id}
-        categoryId={article.category?.id}
+        categoryId={article.category_id}
       />
     </>
   )

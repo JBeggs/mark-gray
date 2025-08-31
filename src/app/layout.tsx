@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
+import { Suspense } from 'react'
 import './globals.css'
 import '../styles/pages.css'
 import { createClient, createSupabaseBuildClient } from '@/lib/supabase-server'
@@ -87,7 +88,9 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
-          <AuthMessage />
+          <Suspense fallback={null}>
+            <AuthMessage />
+          </Suspense>
         </AuthProvider>
       </body>
     </html>

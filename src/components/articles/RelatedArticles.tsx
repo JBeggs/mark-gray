@@ -142,9 +142,9 @@ export default async function RelatedArticles({ currentArticleId, categoryId }: 
                         <div className="absolute top-4 left-4">
                           <span
                             className="px-2 py-1 text-xs font-semibold text-white rounded-full"
-                            style={{ backgroundColor: article.category.color }}
+                            style={{ backgroundColor: (article.category as any)?.color || '#3B82F6' }}
                           >
-                            {article.category.name}
+                            {(article.category as any)?.name}
                           </span>
                         </div>
                       )}
@@ -168,7 +168,7 @@ export default async function RelatedArticles({ currentArticleId, categoryId }: 
                       <div className="flex items-center justify-between text-sm text-gray-500">
                         <div className="flex items-center space-x-4">
                           {/* Author */}
-                          <span>{article.author?.full_name || 'Staff Writer'}</span>
+                          <span>{(article.author as any)?.full_name || 'Staff Writer'}</span>
                           
                           {/* Date */}
                           <div className="flex items-center space-x-1">

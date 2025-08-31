@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, Search, Bell } from 'lucide-react'
+import ClientHeader from './ClientHeader'
 
 interface MenuItem {
   title: string
@@ -57,6 +58,13 @@ export function MobileNav({ menuItems }: MobileNavProps) {
                 {item.title}
               </Link>
             ))}
+            
+            {/* Mobile Authentication */}
+            <div className="border-t border-neutral-200 pt-4 mt-4">
+              <div className="flex justify-center">
+                <ClientHeader />
+              </div>
+            </div>
           </nav>
         </div>
       )}

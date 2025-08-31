@@ -44,7 +44,7 @@ async function getHeaderData() {
     ?.sort((a, b) => a.sort_order - b.sort_order)
     ?.map(item => ({
       title: item.title,
-      href: item.url || (item.pages ? `/pages/${item.pages.slug}` : '#')
+      href: item.url || (item.pages ? `/pages/${Array.isArray(item.pages) ? (item.pages as any)[0]?.slug : (item.pages as any)?.slug}` : '#')
     })) || []
 
   return {
@@ -88,7 +88,7 @@ export async function Header() {
             <Link href="/" className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">
-                  {siteName.split(' ').map(word => word[0]).join('').slice(0, 2)}
+                  {siteName.split(' ').map((word: string) => word[0]).join('').slice(0, 2)}
                 </span>
               </div>
               <div>
