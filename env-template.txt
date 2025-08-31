@@ -1,0 +1,65 @@
+# Environment Variables Template
+# Copy these to your Vercel dashboard or hosting provider
+
+# ==============================================
+# REQUIRED - Supabase Configuration
+# ==============================================
+# Get these from: Supabase Dashboard → Settings → API
+
+NEXT_PUBLIC_SUPABASE_URL=https://ubtreccbytgrhpagaitr.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVidHJlY2NieXRncmhwYWdhaXRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3ODU4NzEsImV4cCI6MjA2OTM2MTg3MX0.9p_wa0ymDnMiu-YoRKsfEZEKTjnDwaaC8KV0Cs7k2mk
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVidHJlY2NieXRncmhwYWdhaXRyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Mzc4NTg3MSwiZXhwIjoyMDY5MzYxODcxfQ.Sz9XoWYfO78DPrXJrNDM3iEYxbRDEbYHcrONf0JHFU8
+
+# ==============================================
+# OPTIONAL - Production Configuration
+# ==============================================
+
+# Your production domain (replace with your actual domain)
+NEXT_PUBLIC_SITE_URL=https://yoursite.com
+
+# Ensures production optimizations
+NODE_ENV=production
+
+# ==============================================
+# INSTRUCTIONS
+# ==============================================
+
+# FOR VERCEL:
+# 1. Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+# 2. Add each variable above (except NODE_ENV - Vercel sets this automatically)
+# 3. Set Environment to: Production, Preview, Development (check all boxes)
+# 4. Click Save for each variable
+
+# FOR OTHER HOSTING PROVIDERS:
+# 1. Copy all variables above to your hosting provider's environment settings
+# 2. Replace the example values with your actual Supabase credentials
+# 3. Update NEXT_PUBLIC_SITE_URL with your actual domain
+
+# ==============================================
+# SECURITY NOTES
+# ==============================================
+
+# ⚠️  NEVER commit .env files to git
+# ⚠️  SUPABASE_SERVICE_ROLE_KEY is secret - only add to hosting provider
+# ✅  NEXT_PUBLIC_* variables are safe to expose to browsers
+# ✅  Keep your Supabase project URL and anon key as they're meant to be public
+
+# ==============================================
+# WHERE TO FIND YOUR SUPABASE CREDENTIALS
+# ==============================================
+
+# 1. Go to https://supabase.com/dashboard
+# 2. Select your project
+# 3. Go to Settings → API
+# 4. Copy:
+#    - Project URL → NEXT_PUBLIC_SUPABASE_URL
+#    - anon/public key → NEXT_PUBLIC_SUPABASE_ANON_KEY  
+#    - service_role key → SUPABASE_SERVICE_ROLE_KEY
+
+# ==============================================
+# TESTING LOCALLY
+# ==============================================
+
+# Your local .env.local should contain the same variables
+# The app is currently running on http://localhost:3001
+# Test all functionality before deploying to production

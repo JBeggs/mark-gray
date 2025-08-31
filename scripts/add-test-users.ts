@@ -2,7 +2,7 @@
 
 /**
  * Add Real Test Users for Authentication
- * Creates admin users and business users (Mark Grey can author articles)
+ * Creates admin users and business users (Mark Gray can author articles)
  */
 
 import dotenv from 'dotenv'
@@ -40,9 +40,9 @@ interface TestUser {
 const testUsers: TestUser[] = [
   // Admin Users
   {
-    email: 'mark.grey@example.com',
+    email: 'mark.gray@example.com',
     password: 'TestPassword123!',
-    full_name: 'Mark Grey',
+    full_name: 'Mark Gray',
     role: 'admin',
     description: 'Site Administrator & Article Author'
   },
@@ -175,7 +175,7 @@ async function displayLoginCredentials() {
   
   console.log('\n👨‍💼 ADMIN USERS:')
   console.log('┌─────────────────────────────────────────────────────────────┐')
-  console.log('│ mark.grey@example.com     │ TestPassword123!  │ Full Admin  │')
+  console.log('│ mark.gray@example.com     │ TestPassword123!  │ Full Admin  │')
   console.log('│ jody.beggs@example.com    │ TestPassword123!  │ Full Admin  │')
   console.log('└─────────────────────────────────────────────────────────────┘')
   
@@ -187,7 +187,7 @@ async function displayLoginCredentials() {
   console.log('└───────────────────────────────────────────────────────────────────┘')
   
   console.log('\n📝 NOTES:')
-  console.log('• Mark Grey has admin role AND can author articles')
+  console.log('• Mark Gray has admin role AND can author articles')
   console.log('• Business owners can manage their respective businesses')
   console.log('• All passwords use strong format for testing')
   console.log('• Contact details for admins will be added later as requested')

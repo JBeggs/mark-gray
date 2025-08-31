@@ -360,17 +360,17 @@ async function scrapeDailyMaverickArticle(url: string): Promise<DailyMaverickArt
 async function addDailyMaverickArticle(articleData: DailyMaverickArticle, sourceUrl: string) {
   console.log(`Adding article: ${articleData.title}`)
   
-  // Get Mark Grey as the article author (admin who can author articles)
+  // Get Mark Gray as the article author (admin who can author articles)
   const { data: markGrey } = await supabase
     .from('profiles')
     .select('id, full_name, email')
-    .eq('email', 'mark.grey@example.com')
+    .eq('email', 'mark.gray@example.com')
     .single()
 
   if (!markGrey) {
-    console.error('❌ Mark Grey (mark.grey@example.com) not found.')
+    console.error('❌ Mark Gray (mark.gray@example.com) not found.')
     console.error('   Please run: npx tsx scripts/add-test-users.ts first')
-    throw new Error('Mark Grey not found')
+    throw new Error('Mark Gray not found')
   }
 
   console.log(`👤 Using author: ${markGrey.full_name} (${markGrey.email})`)
@@ -447,7 +447,7 @@ async function addDailyMaverickArticle(articleData: DailyMaverickArticle, source
   if (articleData.featured_image_url) {
     console.log(`   Featured Image: ${articleData.featured_image_url}`)
   }
-  console.log(`   Note: Article byline preserved in content, but database author is Mark Grey`)
+  console.log(`   Note: Article byline preserved in content, but database author is Mark Gray`)
   
   return article
 }

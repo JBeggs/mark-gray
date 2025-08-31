@@ -62,7 +62,7 @@ The platform uses a comprehensive PostgreSQL schema with 15+ tables including:
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/JBeggs/mark.grey.git
+git clone https://github.com/JBeggs/mark.gray.git
 cd mark-gray
 ```
 

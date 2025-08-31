@@ -64,14 +64,14 @@
   "main": "html-to-pdf.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JBeggs/mark-grey.git"
+    "url": "git+https://github.com/JBeggs/mark.gray.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JBeggs/mark-grey/issues"
+    "url": "https://github.com/JBeggs/mark.gray/issues"
   },
-  "homepage": "https://github.com/JBeggs/mark-grey#readme",
+  "homepage": "https://github.com/JBeggs/mark.gray#readme",
   "description": ""
 }

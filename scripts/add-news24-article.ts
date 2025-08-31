@@ -178,15 +178,15 @@ async function addNews24Article(articleUrl: string) {
   console.log('📰 Adding News24 article...')
   
   try {
-    // Get Mark Grey as the article author (admin who can author articles)
+    // Get Mark Gray as the article author (admin who can author articles)
     const { data: markGrey } = await supabase
       .from('profiles')
       .select('id, full_name, email')
-      .eq('email', 'mark.grey@example.com')
+      .eq('email', 'mark.gray@example.com')
       .single()
 
     if (!markGrey) {
-      console.error('❌ Mark Grey (mark.grey@example.com) not found.')
+      console.error('❌ Mark Gray (mark.gray@example.com) not found.')
       console.error('   Please run: npx tsx scripts/add-test-users.ts first')
       return
     }
