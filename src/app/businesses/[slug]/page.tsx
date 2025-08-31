@@ -261,7 +261,79 @@ export default async function BusinessPage({ params }: BusinessPageProps) {
               <h2 className="text-2xl font-bold text-gray-900 mb-4">About {business.name}</h2>
               <div className="prose prose-lg max-w-none">
                 {business.long_description ? (
-                  <div dangerouslySetInnerHTML={{ __html: business.long_description.replace(/\n/g, '<br />') }} />
+                  <div className="space-y-6">
+                    {business.long_description.split('\n\n').map((paragraph: string, index: number) => {
+                      // Handle headers (lines starting with ##)
+                      if (paragraph.startsWith('## ')) {
+                        return (
+                          <h3 key={index} className="text-xl font-bold text-gray-900 mt-8 mb-4">
+                            {paragraph.replace('## ', '')}
+                          </h3>
+                        )
+                      }
+                      
+                      // Handle bold text (**text**)
+                      if (paragraph.includes('**')) {
+                        const parts = paragraph.split('**')
+                        return (
+                          <div key={index} className="space-y-3">
+                            {parts.map((part, partIndex) => {
+                              if (partIndex % 2 === 1) {
+                                return <strong key={partIndex} className="font-bold text-gray-900">{part}</strong>
+                              }
+                              // Handle bullet points (lines starting with -)
+                              if (part.includes('\n- ')) {
+                                const lines = part.split('\n')
+                                return (
+                                  <div key={partIndex}>
+                                    {lines.map((line, lineIndex) => {
+                                      if (line.startsWith('- ')) {
+                                        return (
+                                          <div key={lineIndex} className="flex items-start space-x-2 mb-2">
+                                            <span className="text-blue-600 font-bold mt-1">•</span>
+                                            <span className="text-gray-700">{line.replace('- ', '')}</span>
+                                          </div>
+                                        )
+                                      }
+                                      return line && <p key={lineIndex} className="text-gray-700 mb-2">{line}</p>
+                                    })}
+                                  </div>
+                                )
+                              }
+                              return part && <span key={partIndex} className="text-gray-700">{part}</span>
+                            })}
+                          </div>
+                        )
+                      }
+                      
+                      // Handle bullet points without bold text
+                      if (paragraph.includes('\n- ')) {
+                        const lines = paragraph.split('\n')
+                        return (
+                          <div key={index} className="space-y-2">
+                            {lines.map((line, lineIndex) => {
+                              if (line.startsWith('- ')) {
+                                return (
+                                  <div key={lineIndex} className="flex items-start space-x-2">
+                                    <span className="text-blue-600 font-bold mt-1">•</span>
+                                    <span className="text-gray-700">{line.replace('- ', '')}</span>
+                                  </div>
+                                )
+                              }
+                              return line && <p key={lineIndex} className="text-gray-700 leading-relaxed">{line}</p>
+                            })}
+                          </div>
+                        )
+                      }
+                      
+                      // Regular paragraphs
+                      return paragraph && (
+                        <p key={index} className="text-gray-700 leading-relaxed">
+                          {paragraph}
+                        </p>
+                      )
+                    })}
+                  </div>
                 ) : business.description ? (
                   <p className="text-gray-700 leading-relaxed">{business.description}</p>
                 ) : (
